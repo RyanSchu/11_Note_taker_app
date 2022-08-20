@@ -5,7 +5,7 @@ const notes = require("./db/db.json")
 const PORT = 3001
 
 const app = express()
-
+app.use(express.static(__dirname + '/public'));
 
 
 // get route for homepage
