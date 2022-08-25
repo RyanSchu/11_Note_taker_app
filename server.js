@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const notes = require("./db/db.json")
 
@@ -28,10 +29,37 @@ app.get('/api/notes',(req,res) => {
 // post request
 app.post('/api/notes',(req,res) => {
     // console.log(notes)
-    console.log(req.body)
+    // console.log(req.body)
     // console.log(res.body)
-    const { noteTitle, noteText } = req.body
-
+    const { title, text } = req.body
+    console.log()
+    if ( title && text ) {
+      // Variable for the object we will save
+      const newNote = {
+        title: title,
+        text: text
+      };
+      // Write the string to a file
+      console.log('newNote', newNote)
+      fs.readFile(__dirname + '/db/db.json', function (err, data) {
+        var json = JSON.parse(data);
+        json.push(newNote);    
+        fs.writeFile(__dirname + "/db/db.json", JSON.stringify(json), function(err){
+          if (err) throw err
+          console.log('The "data to append" was appended to file!')
+        })
+      })
+    
+      const response = {
+        status: 'success',
+        body: newNote,
+      };
+  
+    //   console.log(response);
+      res.status(201).json(response);
+    } else {
+      res.status(500).json('Error in posting review');
+    }
 })
   
 app.delete('/api/notes',(req,res) => {
