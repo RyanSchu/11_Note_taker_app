@@ -46,17 +46,25 @@ app.post('/api/notes',(req,res) => {
       let updatedList = JSON.stringify(notes)
       fs.writeFile(__dirname + '/db/db.json',updatedList, function(err){
         if (err) throw err
-        console.log('The "data to append" was appended to file!')
+        console.log('The db file was updated!')
       })
     //   console.log(response);
       res.status(201).json(JSON.stringify(notes));
     } else {
-      res.status(500).json('Error in posting review');
+      res.status(500).json('Error in updating db file');
     }
 })
   
-app.delete('/api/notes',(req,res) => {
-    res.json(notes) 
+app.delete('/api/notes/:id',(req,res) => {
+    // console.log(req.params.id)
+    // console.log(notes.findIndex((el) => el.id === req.params.id))
+    notes.splice(notes.findIndex((el) => el.id === req.params.id),1)
+    let updatedList = JSON.stringify(notes)
+    fs.writeFile(__dirname + '/db/db.json',updatedList, function(err){
+        if (err) throw err
+        console.log('The db file was updated!')
+      })
+    res.status(201).json(JSON.stringify(notes))
 })
   
 // TODO: Have the app listen on port 3001
