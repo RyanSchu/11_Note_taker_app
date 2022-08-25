@@ -42,14 +42,13 @@ app.post('/api/notes',(req,res) => {
       // Write the string to a file
       console.log('newNote', newNote)
       notes.push(newNote)
-    
-      const response = {
-        status: 'success',
-        body: newNote,
-      };
-  
+      let updatedList = JSON.stringify(newNote)
+      fs.writeFile(__dirname + '/db/db.json',updatedList, function(err){
+        if (err) throw err
+        console.log('The "data to append" was appended to file!')
+      })
     //   console.log(response);
-      res.status(201).json(response);
+      res.status(201).json(JSON.stringify(notes));
     } else {
       res.status(500).json('Error in posting review');
     }
