@@ -26,12 +26,6 @@ app.get('/api/notes',(req,res) => {
     res.json(notes)
 })
 
-// GET request for a specific note
-app.get('/api/upvotes/:note_id', (req, res) => {
-    let target = notes.filter((el) => el.id == req.params.id)
-    res.json(target);
-  });
-
 // post request
 app.post('/api/notes',(req,res) => {
     // console.log(notes)
