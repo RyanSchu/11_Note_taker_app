@@ -12,6 +12,11 @@ if (window.location.pathname === '/notes') {
   noteList = document.querySelectorAll('.list-container .list-group');
 }
 
+const uuid = () =>
+Math.floor((1 + Math.random()) * 0x10000)
+  .toString(16)
+  .substring(1);
+
 // Show an element
 const show = (elem) => {
   elem.style.display = 'inline';
@@ -72,6 +77,7 @@ const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
+    id: uuid()
   };
   // console.log(newNote)
   saveNote(newNote).then(() => {
@@ -101,7 +107,9 @@ const handleNoteDelete = (e) => {
 // Sets the activeNote and displays it
 const handleNoteView = (e) => {
   e.preventDefault();
+  console.log(e.target.parentElement)
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  console.log(activeNote)
   renderActiveNote();
 };
 
