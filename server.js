@@ -21,7 +21,7 @@ app.get('/notes',(req,res) => {
 })
 
 // we need a get a post and a delete method for the notes
-// get is straight forward
+
 app.get('/api/notes',(req,res) => {
     res.json(notes)
 })
@@ -41,14 +41,7 @@ app.post('/api/notes',(req,res) => {
       };
       // Write the string to a file
       console.log('newNote', newNote)
-      fs.readFile(__dirname + '/db/db.json', function (err, data) {
-        var json = JSON.parse(data);
-        json.push(newNote);    
-        fs.writeFile(__dirname + "/db/db.json", JSON.stringify(json), function(err){
-          if (err) throw err
-          console.log('The "data to append" was appended to file!')
-        })
-      })
+      notes.push(newNote)
     
       const response = {
         status: 'success',
